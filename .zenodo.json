@@ -1,0 +1,23 @@
+{
+  "title": "nSRdist_QSR: MATLAB code for estimating normalised sedimentation rate distributions from radiocarbon-dated marine sediment cores",
+  "upload_type": "software",
+  "description": "MATLAB code behind Newall, Lisiecki, Lee and Lawrence, 'Millennial-scale sedimentation rate variability of the deep ocean estimated from radiocarbon-dated sediment cores' (Quaternary Science Reviews). It calculates normalised sedimentation rates (NSR) between radiocarbon-dated depths in 69 marine sediment cores by several methods (Bchron age-depth models, and random sampling from the calibrated radiocarbon age PDFs), fits lognormal, mixture lognormal, gamma and inverse gamma distributions to them, and makes the figures and tables of the manuscript and the sensitivity tests of the response to reviewers. The Bchron outputs and results files behind the figures are in a separate Zenodo data deposit linked from the README.",
+  "creators": [
+    {
+      "name": "Newall, Sam R.",
+      "affiliation": "Department of Earth Science, University of California, Santa Barbara",
+      "orcid": "0009-0007-2049-4481"
+    }
+  ],
+  "license": "CC-BY-4.0",
+  "access_right": "open",
+  "keywords": [
+    "sedimentation rate",
+    "radiocarbon",
+    "age-depth model",
+    "marine sediment cores",
+    "Bchron",
+    "BIGMACS",
+    "MATLAB"
+  ]
+}

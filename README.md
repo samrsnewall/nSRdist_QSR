@@ -1,6 +1,10 @@
-# nSRdist
+# nSRdist_QSR
 
-MATLAB code for estimating the probability distribution of normalised sedimentation rates (NSR) from radiocarbon-dated marine sediment cores.
+MATLAB code for estimating the probability distribution of normalised sedimentation rates (NSR) from radiocarbon-dated marine sediment cores. This is the code behind
+
+> Newall, S. R., Lisiecki, L. E., Lee, T., & Lawrence, C. E. *Millennial-scale sedimentation rate variability of the deep ocean estimated from radiocarbon-dated sediment cores.* Quaternary Science Reviews (in review).
+
+Code archive: [Zenodo DOI to be added]. Data deposit (Bchron outputs and the results files behind the figures): [Zenodo DOI to be added]. See "Data deposit" below.
 
 ## Scientific Background
 
@@ -31,7 +35,7 @@ Runs Stages 1 and 2 with the manuscript settings (or, with `runS.plotsOnly = tru
 | Method | Description |
 |---|---|
 | **BMedian** | Uses the median of the Bchron age-depth model at each radiocarbon dated depth. Analogous to, but more sensible than, the Lin et al. (2014) approach.|
-| **BSamp (BSampAR / BSampIR)** | Samples directly from the Bchron posterior age-depth distribution across many runs. |
+| **BSamp** | Samples directly from the Bchron posterior age-depth distribution across many runs. |
 | **RSR0 / RSR500 / RSR1000** | Random sampling from calibrated radiocarbon age probability distributions, with an optional minimum age-difference restriction (0, 500, or 1000 years) between consecutive dates. The dates are sampled from the shallowest to the deepest, each constrained to be older than the dates already sampled above it. |
 | **RSR<dt>d2s / RSR<dt>random (sensitivity tests)** | The same, sampling the dates from the deepest to the shallowest, or in a random order. Used in the response to reviewers to test the sensitivity of the results to the sampling order. |
 | **rejection (sensitivity test)** | Joint rejection sampling: every date is drawn from its full calibrated PDF at once and the draw is kept only if the ages increase with depth, so no sampling order is involved. Not feasible for cores with many overlapping PDFs, which are skipped. |
@@ -116,13 +120,14 @@ Two options:
 1) (Recommended) In `calcData.m` set `S.matcalFast` to true. This uses a modified (faster) copy of matcal that is included within this repo, so no need to install the add on.
 2) If `S.matcalFast` set to false, code will need MatCal Add on (https://github.com/bryanlougheed/MatCal). Check whether already on path by entering `which matcal` in Command Window.
 
-### 5. Provide path to input data
+### 5. Input data (included)
 
-The code reads core metadata from an Excel spreadsheet (`DataSheets/datasheet.xlsx`) and radiocarbon data from the Mulitza et al. (2022) World Atlas dataset (`WA_Foraminiferal_Isotopes_2022/`, included) and the Lin et al. (2014) supplementary database (`Lin2014Cores/`, included). The path to the World Atlas data is set in `calcData.m`:
+The code reads core metadata from an Excel spreadsheet (`DataSheets/datasheet.xlsx`) and radiocarbon data from the Mulitza et al. (2022) World Atlas dataset (`WA_Foraminiferal_Isotopes_2022/`) and the Lin et al. (2014) supplementary database (`Lin2014Cores/`). All three are in the repository, at the paths `calcData.m` expects (`S.sheet`, `S.WApath`), so nothing needs setting.
 
-```matlab
-S.WApath = "path/to/WA_Foraminiferal_Isotopes_2022";
-```
+### 6. Bchron outputs (from the data deposit)
+
+`calcData.m` reads pre-computed Bchron outputs from `BchronFolders/<S.BchronFolderName>/` (the manuscript run is `All1_RLGtrue_DS0p05_Jun2`). That folder is 4.5 GB and is not in the repository: download it from the data deposit and place it at `BchronFolders/All1_RLGtrue_DS0p05_Jun2/`. Without it, `calcData.m` runs Bchron itself for every core through R (several hours, and the MCMC draws will differ from the manuscript's).
+
 ---
 
 ## Running the Code
@@ -139,17 +144,34 @@ Open and run `calcData.m`. Key settings at the top of the script control which c
 
 ### The response to reviewers
 
-The remaining scripts in `ResultsScripts/` make the sensitivity tests and diagnostics in the response to reviewers, from the files `results_QSR.m` saves:
+The remaining scripts in `ResultsScripts/` make the sensitivity tests and diagnostics in the response to reviewers, from the files `results_QSR.m` saves. Each has a `plotsOnly` setting, `true` as committed, in which it loads its saved fit files (in the data deposit) and plots; set it `false` to remake the fit files.
 
-- `samplingDirectionSensitivity_review1_allcores.m` — RSR500 histograms and fits for the three sampling orders (shallow to deep, deep to shallow, random) and the BICeff ranking of each RSRx method under each order.
-- `samplingDirectionSensitivity_review1_reseeds.m` — reruns `calcData.m` with new random seeds and compares the BICeff of the four distributions across seeds, for every RSRx method and order.
-- `samplingDirectionSensitivity_review1_jointSampleCores.m` — compares the three sampling orders with the joint (rejection) sampler on the cores where rejection sampling is feasible; needs a second, rejection-only `calcData.m` run with a new seed (the commented-out section at the top shows how).
-- `qq_tailGOF.m`, `residualsKSAD.m`, `quantileSegmentFits.m` — Q-Q plots, residual histograms with Kolmogorov-Smirnov and Anderson-Darling statistics, and quantile-separated fit curves for each distribution and method.
+- `samplingDirectionSensitivity_review1_allcores.m` — RSR500 histograms and fits for the three sampling orders (shallow to deep, deep to shallow, random) and the BICeff ranking of each RSRx method under each order. Reads the manuscript fit file directly.
+- `samplingDirectionSensitivity_review1_reseeds.m` — reruns `calcData.m` with three new random seeds (about 2.5 h each) and compares the BICeff of the four distributions across seeds, for every RSRx method and order. Fit files in `Results/review1_seeds/`.
+- `samplingDirectionSensitivity_review1_jointSampleCores.m` — compares the three sampling orders with the joint (rejection) sampler on the cores where rejection sampling is feasible; needs a second, rejection-only `calcData.m` run with a new seed (the commented-out section at the top shows how). Fit files in `Results/review1_jointSampleCores/`.
+- `qq_tailGOF.m`, `residualsKSAD.m`, `quantileSegmentFits.m` — Q-Q plots, residual histograms with Kolmogorov-Smirnov and Anderson-Darling statistics, and quantile-separated fit curves for each distribution and method. Run from the `ResultsScripts/` folder; they read the manuscript fit file.
 - `BICeff_nSensitivity.m` — BICeff of the four distributions against the effective number of radiocarbon pairs.
 
 ### A Note on Reproducibility
 
-Some processes in Stage 1 (the RSRx age sampling and running Bchron) are stochastic. The Bchron outputs used in the manuscript are provided in `BchronFolders/All1_RLGtrue_DS0p05_Jun2/` and are read rather than rerun (`S.BchronReDo = false`), so the BMedian and BSamp results are reproduced exactly. The RSRx loops run in parallel, so their random draws are not reproduced by a seed, and rerunning the code gives RSRx results that differ from the manuscript's at the level of Monte Carlo noise. The conclusions are reproducible; the exact numbers are not. The `calcData.m` and `fitData.m` output files behind the manuscript figures are deposited at [Zenodo DOI to be added], so the figures can be remade exactly with `runS.plotsOnly = true`.
+Some processes in Stage 1 (the RSRx age sampling and running Bchron) are stochastic. The Bchron outputs used in the manuscript are provided in the data deposit (`BchronFolders/All1_RLGtrue_DS0p05_Jun2/`) and are read rather than rerun (`S.BchronReDo = false`), so the BMedian and BSamp results are reproduced exactly. The RSRx loops run in parallel, so their random draws are not reproduced by a seed, and rerunning the code gives RSRx results that differ from the manuscript's at the level of Monte Carlo noise (in our reruns the BICeff values moved by less than 3 units and no ranking changed). The conclusions are reproducible; the exact numbers are not. The `calcData.m` and `fitData.m` output files behind the manuscript figures are in the data deposit, so the figures can be remade exactly with `runS.plotsOnly = true`.
+
+---
+
+## Data deposit
+
+The files that are too large for the repository are deposited at [Zenodo DOI to be added]. Unpack them into the repository so that the paths are:
+
+```
+BchronFolders/All1_RLGtrue_DS0p05_Jun2/           # Bchron inputs and outputs, 109 cores (4.5 GB)
+Results/dataT_QSR.mat                             # calcData output, 69 cores, 10 000 runs (1.0 GB)
+Results/dataT_QSR_coreInfo.mat                    # Core metadata read by results_QSR.m
+Results/results_QSR/dataT_QSR_fit_*.mat           # fitData outputs: depth, age and none weighting (1.8 GB)
+Results/review1_jointSampleCores/*.mat            # Fit files for the rejection-sampler comparison
+Results/review1_seeds/dataT_QSR_seed*_fit_*.mat   # Fit files for the reseed comparison
+```
+
+With these in place every script runs in its plot-only mode. The reseed `calcData` files (three further 0.7 GB files) and the rejection-only seed-2 `calcData` file are not deposited; the scripts remake them if asked.
 
 ---
 
@@ -163,12 +185,13 @@ nSRdist_QSR/
 ├── ResultsScripts/
 │   ├── results_QSR.m                 # Stage 3: runs the pipeline and makes the manuscript figures and tables
 │   └── ...                           # Sensitivity tests and diagnostics for the response to reviewers
-├── BchronFolders/                    # Bchron inputs and outputs (the run used in the manuscript)
+├── BchronFolders/                    # Bchron inputs and outputs (from the data deposit; not in git)
 ├── BIGMACSdata/                      # The NSR distribution and transition matrix currently used by BIGMACS
 ├── DataSheets/datasheet.xlsx         # Core metadata and which radiocarbon dates are included or excluded
 ├── Lin2014Cores/                     # Radiocarbon data of the Lin et al. (2014) cores
 ├── WA_Foraminiferal_Isotopes_2022/   # Radiocarbon data from the Mulitza et al. (2022) World Atlas
-└── Results/                          # Saved .mat output files (Lin2014_dts.mat is read by results_QSR.m)
+└── Results/                          # .mat output files (from the data deposit or your own runs; not in git
+                                      #   except Lin2014_dts.mat, which results_QSR.m reads)
 ```
 
 ---
@@ -203,6 +226,12 @@ nSRdist_QSR/
 This code is released under the [Creative Commons Attribution 4.0 International (CC BY 4.0)](https://creativecommons.org/licenses/by/4.0/) licence. You are free to share and adapt the material for any purpose, provided appropriate credit is given.
 
 This repository includes a modified version of **MatCal** (`matcalFast.m`), originally written by Lougheed & Obrochta (2016), which is also licensed under CC BY 4.0. See the `LICENSE` file for full details.
+
+---
+
+## How to cite
+
+Please cite the paper (above) and the code archive: Newall, S. R. (2026). nSRdist_QSR: MATLAB code for estimating normalised sedimentation rate distributions from radiocarbon-dated sediment cores. Zenodo. [Zenodo DOI to be added]
 
 ---
 
