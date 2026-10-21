@@ -9,3 +9,6 @@ BchronFolders/
 Results/*
 !Results/Lin2014_dts.mat
 Figures/
+
+# Zip files made for the Zenodo data deposit
+*.zip

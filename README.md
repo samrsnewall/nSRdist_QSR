@@ -160,18 +160,19 @@ Some processes in Stage 1 (the RSRx age sampling and running Bchron) are stochas
 
 ## Data deposit
 
-The files that are too large for the repository are deposited at [doi:10.5281/zenodo.23543147](https://doi.org/10.5281/zenodo.23543147). Unpack them into the repository so that the paths are:
+The files that are too large for the repository are deposited at [doi:10.5281/zenodo.23543147](https://doi.org/10.5281/zenodo.23543147) as two zip files, `Results.zip` and `BchronFolders.zip`. Unzip both at the repository root so that the paths are:
 
 ```
 BchronFolders/All1_RLGtrue_DS0p05_Jun2/           # Bchron inputs and outputs, 109 cores (4.5 GB)
 Results/dataT_QSR.mat                             # calcData output, 69 cores, 10 000 runs (1.0 GB)
 Results/dataT_QSR_coreInfo.mat                    # Core metadata read by results_QSR.m
 Results/results_QSR/dataT_QSR_fit_*.mat           # fitData outputs: depth, age and none weighting (1.8 GB)
+Results/dataT_QSR_rejectionSeed2.mat              # Rejection-only calcData run with seed 2 (jointSampleCores noise baseline)
 Results/review1_jointSampleCores/*.mat            # Fit files for the rejection-sampler comparison
-Results/review1_seeds/dataT_QSR_seed*_fit_*.mat   # Fit files for the reseed comparison
+Results/review1_seeds/dataT_QSR_seed*.mat         # calcData runs with seeds 2, 3, 4 (0.7 GB each) and their fit files
 ```
 
-With these in place every script runs in its plot-only mode. The reseed `calcData` files (three further 0.7 GB files) and the rejection-only seed-2 `calcData` file are not deposited; the scripts remake them if asked.
+With these in place every script runs in its plot-only mode, and the response scripts can also refit from the deposited `calcData` files. `Results/` also holds the logs of the runs that made these files.
 
 ---
 
