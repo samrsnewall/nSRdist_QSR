@@ -4,7 +4,7 @@ MATLAB code for estimating the probability distribution of normalised sedimentat
 
 > Newall, S. R., Lisiecki, L. E., Lee, T., & Lawrence, C. E. *Millennial-scale sedimentation rate variability of the deep ocean estimated from radiocarbon-dated sediment cores.* Quaternary Science Reviews (in review).
 
-Code archive: [doi:10.5281/zenodo.23542767](https://doi.org/10.5281/zenodo.23542767). Data deposit (Bchron outputs and the results files behind the figures): [doi:10.5281/zenodo.23543147](https://doi.org/10.5281/zenodo.23543147). See "Data deposit" below.
+Code archive: [doi:10.5281/zenodo.23542766](https://doi.org/10.5281/zenodo.23542766). Data deposit (Bchron outputs and the results files behind the figures): [doi:10.5281/zenodo.23543147](https://doi.org/10.5281/zenodo.23543147). See "Data deposit" below.
 
 ## Scientific Background
 
@@ -231,7 +231,7 @@ This repository includes a modified version of **MatCal** (`matcalFast.m`), orig
 
 ## How to cite
 
-Please cite the paper (above) and the code archive: Newall, S. R. (2026). nSRdist_QSR: MATLAB code for estimating normalised sedimentation rate distributions from radiocarbon-dated sediment cores. Zenodo. https://doi.org/10.5281/zenodo.23542767
+Please cite the paper (above) and the code archive: Newall, S. R. (2026). nSRdist_QSR: MATLAB code for estimating normalised sedimentation rate distributions from radiocarbon-dated sediment cores. Zenodo. https://doi.org/10.5281/zenodo.23542766
 
 ---
 
