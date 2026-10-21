@@ -1,0 +1,1 @@
+id	Age	Error	Depth	Thickness	Outlier1	Outlier2	TypeUnknown1	11560	670	125	10	0.05	0.001	1Unknown2	15130	670	155	10	0.05	0.001	1Unknown3	15040	670	162.5	5	0.05	0.001	1Unknown4	17770	670	192.5	5	0.05	0.001	1Unknown5	20200	960	222.5	5	0.05	0.001	1Unknown6	20440	960	253.5	5	0.05	0.001	1

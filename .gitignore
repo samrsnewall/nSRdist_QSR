@@ -1,0 +1,11 @@
+# macOS and MATLAB clutter
+.DS_Store
+**/.DS_Store
+*.asv
+*.fig
+
+# Large inputs and outputs (deposited on Zenodo, not tracked)
+BchronFolders/
+Results/*
+!Results/Lin2014_dts.mat
+Figures/
